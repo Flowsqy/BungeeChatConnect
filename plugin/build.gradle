@@ -22,3 +22,7 @@ java {
 archivesBaseName = "BungeeChatConnect"
 group = "fr.flowsqy.bungeechatconnect"
 version = "1.0.0-SNAPSHOT"
+
+processResources {
+    expand("version": version)
+}
