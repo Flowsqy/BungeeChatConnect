@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class MessagePreparer {
 
+    @NotNull
     public PrepareMessageEvent prepare(boolean sync, @NotNull Player player, @NotNull String message, @NotNull String format) {
         final PrepareMessageEvent messageEvent = new PrepareMessageEvent(sync, player, message, format);
         Bukkit.getPluginManager().callEvent(messageEvent);
