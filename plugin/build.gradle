@@ -18,3 +18,7 @@ java {
         languageVersion = JavaLanguageVersion.of(17)
     }
 }
+
+archivesBaseName = "BungeeChatConnect"
+group = "fr.flowsqy.bungeechatconnect"
+version = "1.0.0-SNAPSHOT"
