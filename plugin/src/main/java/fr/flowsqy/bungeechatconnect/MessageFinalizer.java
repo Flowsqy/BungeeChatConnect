@@ -4,6 +4,8 @@ import fr.flowsqy.bungeechatconnect.event.BungeePlayerChatEvent;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashSet;
+
 public class MessageFinalizer {
 
     @NotNull
@@ -14,6 +16,7 @@ public class MessageFinalizer {
                 receivedMessage.getDisplayName(),
                 receivedMessage.getFormat(),
                 receivedMessage.getMessage(),
+                new HashSet<>(Bukkit.getOnlinePlayers()),
                 receivedMessage.getExtraData()
         );
         Bukkit.getPluginManager().callEvent(event);
