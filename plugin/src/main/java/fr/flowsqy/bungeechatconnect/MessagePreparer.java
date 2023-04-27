@@ -8,8 +8,8 @@ import org.jetbrains.annotations.NotNull;
 public class MessagePreparer {
 
     @NotNull
-    public PrepareMessageEvent prepare(boolean sync, @NotNull Player player, @NotNull String message, @NotNull String format) {
-        final PrepareMessageEvent messageEvent = new PrepareMessageEvent(sync, player, message, format);
+    public PrepareMessageEvent prepare(boolean async, @NotNull Player player, @NotNull String message, @NotNull String format) {
+        final PrepareMessageEvent messageEvent = new PrepareMessageEvent(async, player, message, format);
         Bukkit.getPluginManager().callEvent(messageEvent);
         return messageEvent;
     }
