@@ -70,7 +70,7 @@ public class ServersQuery implements PluginMessageListener {
                 availableServers.add(server);
             }
         }
-        return availableServers.toArray(new String[availableServers.size()]);
+        return availableServers.toArray(new String[0]);
     }
 
     private void register() {
