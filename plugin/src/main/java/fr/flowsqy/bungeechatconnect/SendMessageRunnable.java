@@ -12,23 +12,23 @@ public class SendMessageRunnable implements Runnable {
     private final Plugin plugin;
     private final boolean async;
     private final Player player;
-    private final String message;
     private final String format;
+    private final String message;
     private final String[] servers;
 
-    public SendMessageRunnable(@NotNull Plugin plugin, boolean async, @NotNull Player player, @NotNull String message, @NotNull String format, @NotNull String[] servers) {
+    public SendMessageRunnable(@NotNull Plugin plugin, boolean async, @NotNull Player player, @NotNull String format, @NotNull String message, @NotNull String[] servers) {
         this.plugin = plugin;
         this.async = async;
         this.player = player;
-        this.message = message;
         this.format = format;
+        this.message = message;
         this.servers = servers;
     }
 
     @Override
     public void run() {
         final MessagePreparer preparer = new MessagePreparer();
-        final PrepareMessageEvent event = preparer.prepare(async, player, message, format);
+        final PrepareMessageEvent event = preparer.prepare(async, player, format, message);
         if (event.isCancelled()) {
             return;
         }
