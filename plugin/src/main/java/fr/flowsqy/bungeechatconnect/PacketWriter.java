@@ -13,7 +13,7 @@ public class PacketWriter {
         final DataOutputStream outDataStream = new DataOutputStream(outByteStream);
         outDataStream.writeUTF("Forward");
         outDataStream.writeUTF(serverTo);
-        outDataStream.writeUTF(BungeeChatConnectPlugin.CHANNEL);
+        outDataStream.writeUTF(ChannelRegistry.CHANNEL);
         outDataStream.writeShort(messageData.length);
         outDataStream.write(messageData);
         outDataStream.flush();

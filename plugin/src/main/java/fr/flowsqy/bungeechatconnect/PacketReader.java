@@ -10,7 +10,7 @@ public class PacketReader {
 
     public Result read(byte @NotNull [] packetData) throws IOException {
         final DataInputStream inDataStream = new DataInputStream(new ByteArrayInputStream(packetData));
-        if (!inDataStream.readUTF().equals(BungeeChatConnectPlugin.CHANNEL)) {
+        if (!inDataStream.readUTF().equals(ChannelRegistry.CHANNEL)) {
             return new Result(false, new byte[0]);
         }
         final byte[] messageData = new byte[inDataStream.readShort()];
