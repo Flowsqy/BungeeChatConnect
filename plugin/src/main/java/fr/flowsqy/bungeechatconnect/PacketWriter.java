@@ -16,7 +16,6 @@ public class PacketWriter {
         outDataStream.writeUTF(ChannelRegistry.CHANNEL);
         outDataStream.writeShort(messageData.length);
         outDataStream.write(messageData);
-        outDataStream.flush();
         return outByteStream.toByteArray();
     }
 

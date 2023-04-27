@@ -23,7 +23,6 @@ public class MessageWriter {
             outDataStream.writeShort(extraData.getData().length);
             outDataStream.write(extraData.getData());
         }
-        outDataStream.flush();
         return outByteStream.toByteArray();
     }
 
