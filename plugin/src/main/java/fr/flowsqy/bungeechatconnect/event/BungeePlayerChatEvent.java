@@ -1,5 +1,6 @@
 package fr.flowsqy.bungeechatconnect.event;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -7,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 
 public class BungeePlayerChatEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
@@ -16,14 +18,16 @@ public class BungeePlayerChatEvent extends Event implements Cancellable {
     private final String displayName;
     private String format;
     private String message;
+    private final Set<Player> recipient;
     private final Map<String, byte[]> extraData;
 
-    public BungeePlayerChatEvent(boolean isAsync, @NotNull String name, @NotNull String displayName, @NotNull String format, @NotNull String message, @NotNull Map<String, byte[]> extraData) {
+    public BungeePlayerChatEvent(boolean isAsync, @NotNull String name, @NotNull String displayName, @NotNull String format, @NotNull String message, @NotNull Set<Player> recipient, @NotNull Map<String, byte[]> extraData) {
         super(isAsync);
         this.name = name;
         this.displayName = displayName;
         this.format = format;
         this.message = message;
+        this.recipient = recipient;
         this.extraData = Collections.unmodifiableMap(extraData);
     }
 
@@ -63,6 +67,11 @@ public class BungeePlayerChatEvent extends Event implements Cancellable {
 
     public void setMessage(@NotNull String message) {
         this.message = message;
+    }
+
+    @NotNull
+    public Set<Player> getRecipient() {
+        return recipient;
     }
 
     @NotNull
