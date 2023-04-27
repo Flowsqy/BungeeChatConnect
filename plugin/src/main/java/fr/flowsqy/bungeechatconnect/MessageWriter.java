@@ -17,6 +17,7 @@ public class MessageWriter {
         outDataStream.writeUTF(displayName);
         outDataStream.writeUTF(format);
         outDataStream.writeUTF(message);
+        outDataStream.writeByte(extraDataList.size());
         for (PrepareMessageEvent.ExtraData extraData : extraDataList) {
             outDataStream.writeUTF(extraData.getPlugin().getName());
             outDataStream.writeShort(extraData.getData().length);
