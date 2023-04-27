@@ -2,11 +2,12 @@ package fr.flowsqy.bungeechatconnect;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
-public class PlayerChatListener {
+public class PlayerChatListener implements Listener {
 
     private final Plugin plugin;
     private final String[] servers;
