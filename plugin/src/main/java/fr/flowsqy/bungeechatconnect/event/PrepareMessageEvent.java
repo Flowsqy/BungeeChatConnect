@@ -20,13 +20,15 @@ public class PrepareMessageEvent extends Event implements Cancellable {
 
     private boolean cancel;
     private final Player player;
+    private final String serverTo;
     private String format;
     private String message;
     private final List<ExtraData> extraDataList;
 
-    public PrepareMessageEvent(boolean isAsync, @NotNull Player player, @NotNull String format, @NotNull String message) {
+    public PrepareMessageEvent(boolean isAsync, @NotNull Player player, @NotNull String serverTo, @NotNull String format, @NotNull String message) {
         super(isAsync);
         this.player = player;
+        this.serverTo = serverTo;
         this.format = format;
         this.message = message;
         extraDataList = new LinkedList<>();
@@ -45,6 +47,11 @@ public class PrepareMessageEvent extends Event implements Cancellable {
     @NotNull
     public Player getPlayer() {
         return player;
+    }
+
+    @NotNull
+    public String getServerTo() {
+        return serverTo;
     }
 
     @NotNull
