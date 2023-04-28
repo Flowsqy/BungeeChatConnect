@@ -8,9 +8,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class PlayerChatListener implements Listener {
 
-    private final QueueManager queueManager;
+    private final MessageQueueManager queueManager;
 
-    public PlayerChatListener(@NotNull QueueManager queueManager) {
+    public PlayerChatListener(@NotNull MessageQueueManager queueManager) {
         this.queueManager = queueManager;
     }
 

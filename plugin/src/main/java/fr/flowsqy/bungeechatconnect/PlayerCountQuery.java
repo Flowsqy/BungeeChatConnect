@@ -5,40 +5,37 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
 
-public class PlayerCountChecker implements PluginMessageListener {
+public class PlayerCountQuery implements PluginMessageListener {
 
+    private final Plugin plugin;
     private final String server;
-    private final int expirationTime;
+    private final Runnable callBack;
     private volatile boolean havePlayer;
-    private volatile long lastCheck;
 
-    public PlayerCountChecker(String server, int expirationTime) {
+    public PlayerCountQuery(@NotNull Plugin plugin, @NotNull String server, @Nullable Runnable callBack) {
+        this.plugin = plugin;
         this.server = server;
-        this.expirationTime = expirationTime;
+        this.callBack = callBack;
         this.havePlayer = false;
-        this.lastCheck = 0;
     }
 
-    public void register(@NotNull Plugin plugin) {
+    public void register() {
         Bukkit.getMessenger().registerIncomingPluginChannel(plugin, "BungeeCord", this);
     }
 
-    public void unregister(@NotNull Plugin plugin) {
+    public void unregister() {
         Bukkit.getMessenger().unregisterIncomingPluginChannel(plugin, "BungeeCord", this);
     }
 
-    public boolean havePlayer(@NotNull Plugin plugin, @NotNull Player player) {
-        if (System.currentTimeMillis() - lastCheck > expirationTime) {
-            queryPlayerCount(plugin, player);
-            return false;
-        }
+    public boolean havePlayer() {
         return havePlayer;
     }
 
-    private void queryPlayerCount(@NotNull Plugin plugin, @NotNull Player player) {
+    public void query(@NotNull Player player) {
         final ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
         final DataOutputStream outDataStream = new DataOutputStream(outByteStream);
         try {
@@ -55,24 +52,35 @@ public class PlayerCountChecker implements PluginMessageListener {
         if (!channel.equals("BungeeCord")) {
             return;
         }
-        final DataInputStream inDataStream = new DataInputStream(new ByteArrayInputStream(message));
+        final int playerCount;
         try {
-            final String subChannel = inDataStream.readUTF();
-            if (!subChannel.equals("PlayerCount")) {
-                return;
-            }
-            final String server = inDataStream.readUTF();
-            if (!server.equals(this.server)) {
-                return;
-            }
-            final int playerCount = inDataStream.readInt();
-            actualize(playerCount);
+            playerCount = readMessage(message);
         } catch (IOException ignored) {
+            return;
         }
+        if (playerCount < 0) {
+            return;
+        }
+        actualize(playerCount);
+    }
+
+    private int readMessage(byte[] message) throws IOException {
+        final DataInputStream inDataStream = new DataInputStream(new ByteArrayInputStream(message));
+        final String subChannel = inDataStream.readUTF();
+        if (!subChannel.equals("PlayerCount")) {
+            return -1;
+        }
+        final String server = inDataStream.readUTF();
+        if (!server.equals(this.server)) {
+            return -1;
+        }
+        return inDataStream.readInt();
     }
 
     private void actualize(int playerCount) {
         this.havePlayer = playerCount > 0;
-        this.lastCheck = System.currentTimeMillis();
+        if (callBack != null) {
+            callBack.run();
+        }
     }
 }

@@ -7,8 +7,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class AsyncMessageSender {
 
-    public void sendMessage(@NotNull Plugin plugin, @NotNull Queue queue, @NotNull Player player, @NotNull String format, @NotNull String message) {
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, new SendMessageRunnable(plugin, queue, true, player, format, message));
+    public void sendMessage(@NotNull Plugin plugin, @NotNull MessageQueue queue, @NotNull Player player, @NotNull String format, @NotNull String message) {
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, new SendMessageRunnable(queue, true, player, format, message));
     }
 
 }
