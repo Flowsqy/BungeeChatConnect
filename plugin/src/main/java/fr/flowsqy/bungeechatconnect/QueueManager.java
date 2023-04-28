@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 public class QueueManager {
 
     private final Plugin plugin;
+    // TODO Initialize queues
     private Queue[] queues;
 
     public QueueManager(Plugin plugin) {

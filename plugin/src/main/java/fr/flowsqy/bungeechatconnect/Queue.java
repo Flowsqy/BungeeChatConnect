@@ -8,9 +8,12 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Queue {
 
+    // TODO Initialize expirationTime and server
     private final int expirationTime = 1000;
     private final String server = "";
     private final java.util.Queue<SendMessageData> queue = new ConcurrentLinkedQueue<>();
+
+    // TODO Query PlayerCount and update lastCheck
     private final long lastCheck = 0;
 
     public void subscribe(@NotNull Plugin plugin, @NotNull Player player, @NotNull SendMessageData sendMessageData) {
