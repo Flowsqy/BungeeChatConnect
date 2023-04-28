@@ -4,24 +4,20 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 public class PlayerChatListener implements Listener {
 
-    private final Plugin plugin;
-    private final String[] servers;
+    private final QueueManager queueManager;
 
-    public PlayerChatListener(@NotNull Plugin plugin, @NotNull String[] servers) {
-        this.plugin = plugin;
-        this.servers = servers;
+    public PlayerChatListener(@NotNull QueueManager queueManager) {
+        this.queueManager = queueManager;
     }
 
     @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.MONITOR)
     private void onPlayerChat(AsyncPlayerChatEvent event) {
-        final AsyncMessageSender asyncMessageSender = new AsyncMessageSender();
-        asyncMessageSender.sendMessage(plugin, event.getPlayer(), event.getFormat(), event.getMessage(), servers);
+        queueManager.subscribe(event.getPlayer(), event.getFormat(), event.getMessage());
     }
 
 }

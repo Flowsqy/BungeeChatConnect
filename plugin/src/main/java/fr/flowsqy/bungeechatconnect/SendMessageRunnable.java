@@ -5,56 +5,31 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
-
 public class SendMessageRunnable implements Runnable {
 
     private final Plugin plugin;
+    private final Queue queue;
     private final boolean async;
     private final Player player;
     private final String format;
     private final String message;
-    private final String[] servers;
 
-    public SendMessageRunnable(@NotNull Plugin plugin, boolean async, @NotNull Player player, @NotNull String format, @NotNull String message, @NotNull String[] servers) {
+    public SendMessageRunnable(@NotNull Plugin plugin, @NotNull Queue queue, boolean async, @NotNull Player player, @NotNull String format, @NotNull String message) {
         this.plugin = plugin;
+        this.queue = queue;
         this.async = async;
         this.player = player;
         this.format = format;
         this.message = message;
-        this.servers = servers;
     }
 
     @Override
     public void run() {
         final MessagePreparer preparer = new MessagePreparer();
-        final PrepareMessageEvent event = preparer.prepare(async, player, format, message);
+        final PrepareMessageEvent event = preparer.prepare(async, player, queue.getServer(), format, message);
         if (event.isCancelled()) {
             return;
         }
-        final MessageWriter writer = new MessageWriter();
-        final byte[] messageData;
-        try {
-            messageData = writer.write(
-                    player.getName(),
-                    player.getDisplayName(),
-                    event.getFormat(),
-                    event.getMessage(),
-                    event.getExtraDataList()
-            );
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        final PacketWriter packetWriter = new PacketWriter();
-        final PacketSender packetSender = new PacketSender();
-        for (String server : servers) {
-            final byte[] packetData;
-            try {
-                packetData = packetWriter.write(server, messageData);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            packetSender.send(plugin, player, packetData);
-        }
+        queue.subscribe(plugin, player, SendMessageData.snapshot(event));
     }
 }
