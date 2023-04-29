@@ -10,11 +10,11 @@ import java.util.List;
 
 public class MessageWriter {
 
-    public byte @NotNull [] write(@NotNull String name, @NotNull String displayName, @NotNull SendMessageData sendMessageData) throws IOException {
+    public byte @NotNull [] write(@NotNull SendMessageData sendMessageData) throws IOException {
         final ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
         final DataOutputStream outDataStream = new DataOutputStream(outByteStream);
-        outDataStream.writeUTF(name);
-        outDataStream.writeUTF(displayName);
+        outDataStream.writeUTF(sendMessageData.getName());
+        outDataStream.writeUTF(sendMessageData.getDisplayName());
         outDataStream.writeUTF(sendMessageData.getFormat());
         outDataStream.writeUTF(sendMessageData.getMessage());
         final List<PrepareMessageEvent.ExtraData> extraDataList = sendMessageData.getExtraDataList();

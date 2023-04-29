@@ -16,7 +16,7 @@ public class NetworkMessageSender {
         final MessageWriter writer = new MessageWriter();
         final byte[] messageData;
         try {
-            messageData = writer.write(player.getName(), player.getDisplayName(), sendMessageData);
+            messageData = writer.write(sendMessageData);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
