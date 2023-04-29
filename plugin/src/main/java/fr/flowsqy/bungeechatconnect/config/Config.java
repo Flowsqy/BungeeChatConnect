@@ -18,9 +18,9 @@ public class Config {
 
     public Map<String, Integer> getServersExpirationTimes(Logger logger) {
         final Map<String, Integer> serverExpirationTime = new HashMap<>();
-        for(String server : configuration.getKeys(false)) {
+        for (String server : configuration.getKeys(false)) {
             final String rawExpirationTime = configuration.getString(server);
-            if(rawExpirationTime == null) {
+            if (rawExpirationTime == null) {
                 logger.warning(server + " does not specify any value");
                 continue;
             }
@@ -31,7 +31,7 @@ public class Config {
                 logger.warning("Awkward value for '" + server + "': '" + rawExpirationTime + "' is not a number");
                 continue;
             }
-            if(expirationTime <= 0) {
+            if (expirationTime <= 0) {
                 logger.warning("Awkward value for '" + server + "': The value should be an integer superior to 0");
                 continue;
             }
