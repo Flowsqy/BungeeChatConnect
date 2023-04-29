@@ -18,7 +18,6 @@ public class MessageQueueManager {
     public void subscribe(@NotNull Player player, @NotNull String format, @NotNull String message) {
         final AsyncMessageSender asyncMessageSender = new AsyncMessageSender();
         for (MessageQueue queue : messageQueuesProvider.get(player)) {
-            System.out.println(queue.getServer());
             asyncMessageSender.sendMessage(plugin, queue, player, format, message);
         }
     }
