@@ -7,16 +7,16 @@ import org.jetbrains.annotations.NotNull;
 public class MessageQueueManager {
 
     private final Plugin plugin;
-    // TODO Initialize queues
-    private MessageQueue[] queues;
+    private final MessageQueuesProvider messageQueuesProvider;
 
-    public MessageQueueManager(Plugin plugin) {
+    public MessageQueueManager(Plugin plugin, MessageQueuesProvider messageQueuesProvider) {
         this.plugin = plugin;
+        this.messageQueuesProvider = messageQueuesProvider;
     }
 
     public void subscribe(@NotNull Player player, @NotNull String format, @NotNull String message) {
         final AsyncMessageSender asyncMessageSender = new AsyncMessageSender();
-        for (MessageQueue queue : queues) {
+        for (MessageQueue queue : messageQueuesProvider.get(player)) {
             asyncMessageSender.sendMessage(plugin, queue, player, format, message);
         }
     }
