@@ -2,6 +2,7 @@ package fr.flowsqy.bungeechatconnect;
 
 import fr.flowsqy.bungeechatconnect.config.Config;
 import fr.flowsqy.bungeechatconnect.config.ConfigLoader;
+import fr.flowsqy.bungeechatconnect.external.ExternalManager;
 import fr.flowsqy.bungeechatconnect.listener.MessageReceiveListener;
 import fr.flowsqy.bungeechatconnect.listener.PlayerChatListener;
 import fr.flowsqy.bungeechatconnect.protocol.NetworkRegistry;
@@ -50,6 +51,9 @@ public class BungeeChatConnectPlugin extends JavaPlugin {
 
         messageReceiveListener = new MessageReceiveListener(this);
         messageReceiveListener.register();
+
+        final ExternalManager externalManager = new ExternalManager();
+        externalManager.load(this);
 
         Bukkit.getPluginManager().registerEvents(new PlayerChatListener(messageQueueManager), this);
     }
