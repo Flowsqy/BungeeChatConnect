@@ -16,7 +16,7 @@ public class PlayerChatListener implements Listener {
     }
 
     @SuppressWarnings("unused")
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     private void onPlayerChat(AsyncPlayerChatEvent event) {
         queueManager.subscribe(event.getPlayer(), event.getFormat(), event.getMessage());
     }
