@@ -1,5 +1,6 @@
-package fr.flowsqy.bungeechatconnect;
+package fr.flowsqy.bungeechatconnect.protocol.packet;
 
+import fr.flowsqy.bungeechatconnect.protocol.NetworkRegistry;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayInputStream;

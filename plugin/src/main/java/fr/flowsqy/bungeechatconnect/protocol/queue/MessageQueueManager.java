@@ -1,5 +1,6 @@
-package fr.flowsqy.bungeechatconnect;
+package fr.flowsqy.bungeechatconnect.protocol.queue;
 
+import fr.flowsqy.bungeechatconnect.protocol.task.AsyncMessageSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -17,6 +18,7 @@ public class MessageQueueManager {
     public void subscribe(@NotNull Player player, @NotNull String format, @NotNull String message) {
         final AsyncMessageSender asyncMessageSender = new AsyncMessageSender();
         for (MessageQueue queue : messageQueuesProvider.get(player)) {
+            System.out.println(queue.getServer());
             asyncMessageSender.sendMessage(plugin, queue, player, format, message);
         }
     }

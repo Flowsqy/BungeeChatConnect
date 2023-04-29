@@ -1,4 +1,4 @@
-package fr.flowsqy.bungeechatconnect;
+package fr.flowsqy.bungeechatconnect.protocol.queue;
 
 public class QueueTimer {
 

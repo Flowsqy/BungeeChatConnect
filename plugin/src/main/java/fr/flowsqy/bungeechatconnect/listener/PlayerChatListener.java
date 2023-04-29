@@ -1,5 +1,6 @@
-package fr.flowsqy.bungeechatconnect;
+package fr.flowsqy.bungeechatconnect.listener;
 
+import fr.flowsqy.bungeechatconnect.protocol.queue.MessageQueueManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;

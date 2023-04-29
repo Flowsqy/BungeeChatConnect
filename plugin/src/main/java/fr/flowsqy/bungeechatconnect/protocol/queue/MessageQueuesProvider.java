@@ -1,6 +1,6 @@
-package fr.flowsqy.bungeechatconnect;
+package fr.flowsqy.bungeechatconnect.protocol.queue;
 
-import fr.flowsqy.bungeechatconnect.servers.ServersIdentifier;
+import fr.flowsqy.bungeechatconnect.protocol.queue.servers.ServersIdentifier;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;

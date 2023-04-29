@@ -1,5 +1,6 @@
-package fr.flowsqy.bungeechatconnect;
+package fr.flowsqy.bungeechatconnect.protocol.task;
 
+import fr.flowsqy.bungeechatconnect.protocol.queue.MessageQueue;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;

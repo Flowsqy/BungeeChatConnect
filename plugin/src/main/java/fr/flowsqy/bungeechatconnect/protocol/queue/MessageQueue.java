@@ -1,5 +1,7 @@
-package fr.flowsqy.bungeechatconnect;
+package fr.flowsqy.bungeechatconnect.protocol.queue;
 
+import fr.flowsqy.bungeechatconnect.protocol.message.SendMessageData;
+import fr.flowsqy.bungeechatconnect.protocol.process.NetworkMessageSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;

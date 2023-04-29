@@ -1,4 +1,4 @@
-package fr.flowsqy.bungeechatconnect.servers;
+package fr.flowsqy.bungeechatconnect.protocol.queue.servers;
 
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;

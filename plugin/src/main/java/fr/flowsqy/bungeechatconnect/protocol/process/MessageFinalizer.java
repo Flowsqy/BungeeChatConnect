@@ -1,6 +1,7 @@
-package fr.flowsqy.bungeechatconnect;
+package fr.flowsqy.bungeechatconnect.protocol.process;
 
 import fr.flowsqy.bungeechatconnect.event.BungeePlayerChatEvent;
+import fr.flowsqy.bungeechatconnect.protocol.message.ReceivedMessage;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 

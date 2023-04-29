@@ -1,4 +1,4 @@
-package fr.flowsqy.bungeechatconnect;
+package fr.flowsqy.bungeechatconnect.protocol.message;
 
 import fr.flowsqy.bungeechatconnect.event.PrepareMessageEvent;
 import org.jetbrains.annotations.NotNull;

@@ -1,6 +1,11 @@
-package fr.flowsqy.bungeechatconnect;
+package fr.flowsqy.bungeechatconnect.protocol.task;
 
 import fr.flowsqy.bungeechatconnect.event.BungeePlayerChatEvent;
+import fr.flowsqy.bungeechatconnect.protocol.message.MessageReader;
+import fr.flowsqy.bungeechatconnect.protocol.message.MessageSender;
+import fr.flowsqy.bungeechatconnect.protocol.message.ReceivedMessage;
+import fr.flowsqy.bungeechatconnect.protocol.packet.PacketReader;
+import fr.flowsqy.bungeechatconnect.protocol.process.MessageFinalizer;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;

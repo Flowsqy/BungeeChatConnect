@@ -1,4 +1,4 @@
-package fr.flowsqy.bungeechatconnect;
+package fr.flowsqy.bungeechatconnect.protocol.process;
 
 import fr.flowsqy.bungeechatconnect.event.PrepareMessageEvent;
 import org.bukkit.Bukkit;
