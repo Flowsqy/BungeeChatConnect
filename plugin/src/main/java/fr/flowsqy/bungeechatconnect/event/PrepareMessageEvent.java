@@ -4,7 +4,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -72,8 +71,8 @@ public class PrepareMessageEvent extends Event implements Cancellable {
         this.message = message;
     }
 
-    public void addExtraData(@NotNull Plugin plugin, byte @NotNull [] data) {
-        extraDataList.add(new ExtraData(plugin, data));
+    public void addExtraData(@NotNull String identifier, byte @NotNull [] data) {
+        extraDataList.add(new ExtraData(identifier, data));
     }
 
     @NotNull
@@ -93,17 +92,17 @@ public class PrepareMessageEvent extends Event implements Cancellable {
 
     public final static class ExtraData {
 
-        private final Plugin plugin;
+        private final String identifier;
         private final byte[] data;
 
-        public ExtraData(@NotNull Plugin plugin, byte @NotNull [] data) {
-            this.plugin = plugin;
+        public ExtraData(@NotNull String identifier, byte @NotNull [] data) {
+            this.identifier = identifier;
             this.data = data;
         }
 
         @NotNull
-        public Plugin getPlugin() {
-            return plugin;
+        public String getIdentifier() {
+            return identifier;
         }
 
         public byte @NotNull [] getData() {

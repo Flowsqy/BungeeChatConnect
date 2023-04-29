@@ -20,7 +20,7 @@ public class MessageWriter {
         final List<PrepareMessageEvent.ExtraData> extraDataList = sendMessageData.getExtraDataList();
         outDataStream.writeByte(extraDataList.size());
         for (PrepareMessageEvent.ExtraData extraData : extraDataList) {
-            outDataStream.writeUTF(extraData.getPlugin().getName());
+            outDataStream.writeUTF(extraData.getIdentifier());
             outDataStream.writeShort(extraData.getData().length);
             outDataStream.write(extraData.getData());
         }
