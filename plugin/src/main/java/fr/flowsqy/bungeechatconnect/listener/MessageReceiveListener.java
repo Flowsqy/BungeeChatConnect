@@ -19,7 +19,7 @@ public class MessageReceiveListener implements PluginMessageListener {
         Bukkit.getMessenger().registerIncomingPluginChannel(plugin, "BungeeCord", this);
     }
 
-    private void unregister() {
+    public void unregister() {
         Bukkit.getMessenger().unregisterIncomingPluginChannel(plugin, "BungeeCord", this);
     }
 
