@@ -5,9 +5,9 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.messaging.Messenger;
 import org.jetbrains.annotations.NotNull;
 
-public class ChannelRegistry {
+public class NetworkRegistry {
 
-    public final static String CHANNEL = "BungeeChatConnect";
+    public final static String CHAT_CHANNEL = "bungee_chat_connect:chat";
 
     public void registerChannel(@NotNull Plugin plugin) {
         final Messenger messenger = Bukkit.getMessenger();

@@ -13,7 +13,7 @@ public class PacketWriter {
         final DataOutputStream outDataStream = new DataOutputStream(outByteStream);
         outDataStream.writeUTF("Forward");
         outDataStream.writeUTF(serverTo);
-        outDataStream.writeUTF(ChannelRegistry.CHANNEL);
+        outDataStream.writeUTF(NetworkRegistry.CHAT_CHANNEL);
         outDataStream.writeShort(messageData.length);
         outDataStream.write(messageData);
         return outByteStream.toByteArray();
