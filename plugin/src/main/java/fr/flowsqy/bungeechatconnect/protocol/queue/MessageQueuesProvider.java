@@ -25,12 +25,18 @@ public class MessageQueuesProvider {
     }
 
     private void register() {
+        if (queues == null) {
+            return;
+        }
         for (MessageQueue queue : queues) {
             queue.register();
         }
     }
 
     public void unregister() {
+        if (queues == null) {
+            return;
+        }
         for (MessageQueue queue : queues) {
             queue.unregister();
         }
