@@ -16,7 +16,6 @@ public class ExternalEssentialsChatLoader {
 
     private void enable(@NotNull Plugin plugin) {
         final ExternalEssentialsChatListener messageListener = new ExternalEssentialsChatListener();
-        messageListener.enable();
         Bukkit.getPluginManager().registerEvents(messageListener, plugin);
     }
 
