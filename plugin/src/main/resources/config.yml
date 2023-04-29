@@ -1,0 +1,19 @@
+# Specify on which server messages will be sent
+# Each server needs to specify a delay (in millisecond) to check the presence of a player on the targeted server
+#
+# For example:
+#
+#lobby: 1000
+#survival: 1000
+#mini-game: 2000
+#
+# is a valid configuration where every message sent on this server will be sent to the server 'lobby', 'survival' and
+# 'mini-game'. Those names should match the one specified in the BungeeCord's configuration.
+# The plugin will check if it can send the message to the 'lobby' and 'survival' server if the previous check was made
+# 1 second ago or more.
+# But it will check if it can send the message to the 'mini-game' server only if the previous check was made 2 seconds
+# ago.
+# Note that if you specify a delay too large, an empty server will stack messages until a player connect. The player
+# will then receive the messages, regardless of when they were sent, event if it was several days ago.
+# In the opposite way, if you specify a delay to short, the server will not be able to send the message.
+# With those considerations, keeping 1000 as a value for every server is probably the best idea
