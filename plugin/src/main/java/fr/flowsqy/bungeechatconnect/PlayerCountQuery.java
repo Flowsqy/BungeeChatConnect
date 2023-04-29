@@ -8,15 +8,16 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
+import java.util.function.Consumer;
 
 public class PlayerCountQuery implements PluginMessageListener {
 
     private final Plugin plugin;
     private final String server;
-    private final Runnable callBack;
+    private final Consumer<Player> callBack;
     private volatile boolean havePlayer;
 
-    public PlayerCountQuery(@NotNull Plugin plugin, @NotNull String server, @Nullable Runnable callBack) {
+    public PlayerCountQuery(@NotNull Plugin plugin, @NotNull String server, @Nullable Consumer<Player> callBack) {
         this.plugin = plugin;
         this.server = server;
         this.callBack = callBack;
@@ -61,7 +62,7 @@ public class PlayerCountQuery implements PluginMessageListener {
         if (playerCount < 0) {
             return;
         }
-        actualize(playerCount);
+        actualize(player, playerCount);
     }
 
     private int readMessage(byte[] message) throws IOException {
@@ -77,10 +78,10 @@ public class PlayerCountQuery implements PluginMessageListener {
         return inDataStream.readInt();
     }
 
-    private void actualize(int playerCount) {
+    private void actualize(@NotNull Player player, int playerCount) {
         this.havePlayer = playerCount > 0;
         if (callBack != null) {
-            callBack.run();
+            callBack.accept(player);
         }
     }
 }

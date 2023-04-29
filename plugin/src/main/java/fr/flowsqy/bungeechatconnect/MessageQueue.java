@@ -18,7 +18,7 @@ public class MessageQueue {
     public MessageQueue(@NotNull Plugin plugin, int expirationTime, @NotNull String server) {
         this.plugin = plugin;
         this.timer = new QueueTimer(expirationTime);
-        this.playerCountChecker = new PlayerCountQuery(plugin, server, timer::updateTime);
+        this.playerCountChecker = new PlayerCountQuery(plugin, server, this::updateCallback);
         this.server = server;
         queue = new ConcurrentLinkedQueue<>();
     }
@@ -33,6 +33,11 @@ public class MessageQueue {
 
     public void subscribe(@NotNull Player player, @NotNull SendMessageData sendMessageData) {
         queue.offer(sendMessageData);
+        checkForSend(player);
+    }
+
+    private void updateCallback(@NotNull Player player) {
+        timer.updateTime();
         checkForSend(player);
     }
 
