@@ -8,7 +8,7 @@ public class MessageSender {
 
     public void sendMessage(@NotNull BungeePlayerChatEvent event) {
         final String message = String.format(event.getFormat(), event.getDisplayName(), event.getMessage());
-        for (Player player : event.getRecipient()) {
+        for (Player player : event.getRecipients()) {
             player.sendMessage(message);
         }
     }

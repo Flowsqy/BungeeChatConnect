@@ -18,16 +18,16 @@ public class BungeePlayerChatEvent extends Event implements Cancellable {
     private final String displayName;
     private String format;
     private String message;
-    private final Set<Player> recipient;
+    private final Set<Player> recipients;
     private final Map<String, byte[]> extraData;
 
-    public BungeePlayerChatEvent(boolean isAsync, @NotNull String name, @NotNull String displayName, @NotNull String format, @NotNull String message, @NotNull Set<Player> recipient, @NotNull Map<String, byte[]> extraData) {
+    public BungeePlayerChatEvent(boolean isAsync, @NotNull String name, @NotNull String displayName, @NotNull String format, @NotNull String message, @NotNull Set<Player> recipients, @NotNull Map<String, byte[]> extraData) {
         super(isAsync);
         this.name = name;
         this.displayName = displayName;
         this.format = format;
         this.message = message;
-        this.recipient = recipient;
+        this.recipients = recipients;
         this.extraData = Collections.unmodifiableMap(extraData);
     }
 
@@ -70,8 +70,8 @@ public class BungeePlayerChatEvent extends Event implements Cancellable {
     }
 
     @NotNull
-    public Set<Player> getRecipient() {
-        return recipient;
+    public Set<Player> getRecipients() {
+        return recipients;
     }
 
     @NotNull
