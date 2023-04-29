@@ -1,5 +1,6 @@
 package fr.flowsqy.bungeechatconnect;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
@@ -11,6 +12,14 @@ public class MessageReceiveListener implements PluginMessageListener {
 
     public MessageReceiveListener(@NotNull Plugin plugin) {
         this.plugin = plugin;
+    }
+
+    public void register() {
+        Bukkit.getMessenger().registerIncomingPluginChannel(plugin, "BungeeCord", this);
+    }
+
+    private void unregister() {
+        Bukkit.getMessenger().unregisterIncomingPluginChannel(plugin, "BungeeCord", this);
     }
 
     @Override
