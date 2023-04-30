@@ -7,32 +7,45 @@ import net.essentialsx.api.v2.events.chat.LocalChatEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.Objects;
-import java.util.Queue;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class ExternalEssentialsChatListener implements Listener {
 
     // We can use a queue because PrepareMessageEvent events are called in the same order as the messages are sent
     private final Queue<ChatType> messageQueue;
+    // Terrible idea. But Essentials does not fire ChatEvent when AsyncPlayerChatEvent is cancelled
+    private final Set<UUID> registeredId;
 
     public ExternalEssentialsChatListener() {
         messageQueue = new ConcurrentLinkedQueue<>();
+        registeredId = Collections.synchronizedSet(new HashSet<>());
+    }
+
+    @SuppressWarnings("unused")
+    @EventHandler(priority = EventPriority.HIGHEST)
+    private void onChat(AsyncPlayerChatEvent event) {
+        if (!registeredId.remove(event.getPlayer().getUniqueId())) {
+            subscribe(ChatType.LOCAL);
+        }
     }
 
     @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.MONITOR)
     private void onChat(LocalChatEvent event) {
+        registeredId.add(event.getPlayer().getUniqueId());
         subscribe(event.getChatType());
     }
 
     @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.MONITOR)
     private void onChat(GlobalChatEvent event) {
+        registeredId.add(event.getPlayer().getUniqueId());
         subscribe(event.getChatType());
     }
 
@@ -44,6 +57,9 @@ public class ExternalEssentialsChatListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     private void onPrepare(PrepareMessageEvent event) {
         final ChatType chatType = Objects.requireNonNull(messageQueue.poll());
+        if (event.isCancelled()) {
+            return;
+        }
         if (chatType == ChatType.LOCAL) {
             event.setCancelled(true);
             return;
