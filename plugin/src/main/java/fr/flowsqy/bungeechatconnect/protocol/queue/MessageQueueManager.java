@@ -18,14 +18,14 @@ public class MessageQueueManager {
         this.asyncTaskQueue = new AsyncTaskQueue(plugin);
     }
 
-    public void subscribe(@NotNull Player player, @NotNull String format, @NotNull String message) {
-        asyncTaskQueue.subscribe(() -> asyncSubscribe(player, format, message));
+    public void subscribe(@NotNull Player player, boolean cancelled, @NotNull String format, @NotNull String message) {
+        asyncTaskQueue.subscribe(() -> asyncSubscribe(player, cancelled, format, message));
     }
 
-    private void asyncSubscribe(@NotNull Player player, @NotNull String format, @NotNull String message) {
+    private void asyncSubscribe(@NotNull Player player, boolean cancelled, @NotNull String format, @NotNull String message) {
         final AsyncMessageSender asyncMessageSender = new AsyncMessageSender();
         for (MessageQueue queue : messageQueuesProvider.get(player)) {
-            asyncMessageSender.sendMessage(plugin, true, queue, player, format, message);
+            asyncMessageSender.sendMessage(plugin, cancelled, true, queue, player, format, message);
         }
     }
 

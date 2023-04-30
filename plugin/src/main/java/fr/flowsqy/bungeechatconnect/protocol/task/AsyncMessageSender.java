@@ -11,9 +11,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class AsyncMessageSender {
 
-    public void sendMessage(@NotNull Plugin plugin, boolean async, @NotNull MessageQueue queue, @NotNull Player player, @NotNull String format, @NotNull String message) {
+    public void sendMessage(@NotNull Plugin plugin, boolean cancelled, boolean async, @NotNull MessageQueue queue, @NotNull Player player, @NotNull String format, @NotNull String message) {
         final MessagePreparer preparer = new MessagePreparer();
-        final PrepareMessageEvent event = preparer.prepare(async, player, queue.getServer(), format, message);
+        final PrepareMessageEvent event = preparer.prepare(async, cancelled, player, queue.getServer(), format, message);
         if (event.isCancelled()) {
             return;
         }
