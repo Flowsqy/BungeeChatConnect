@@ -25,13 +25,13 @@ public class ExternalEssentialsChatListener implements Listener {
     }
 
     @SuppressWarnings("unused")
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR)
     private void onChat(LocalChatEvent event) {
         subscribe(event.getChatType());
     }
 
     @SuppressWarnings("unused")
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR)
     private void onChat(GlobalChatEvent event) {
         subscribe(event.getChatType());
     }
