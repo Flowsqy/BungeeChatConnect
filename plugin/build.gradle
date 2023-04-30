@@ -26,9 +26,21 @@ java {
     }
 }
 
+
 archivesBaseName = "BungeeChatConnect"
 group = "fr.flowsqy.bungeechatconnect"
 version = "1.0.0-SNAPSHOT"
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = project.group
+            artifactId = project.archivesBaseName
+            version = project.version
+            from components.java
+        }
+    }
+}
 
 processResources {
     expand("version": version)
