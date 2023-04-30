@@ -18,7 +18,7 @@ public class ExternalEssentialsReceiveListener implements Listener {
 
     private final IEssentials essentialsPlugin;
 
-    public ExternalEssentialsReceiveListener(IEssentials essentialsPlugin) {
+    public ExternalEssentialsReceiveListener(@NotNull IEssentials essentialsPlugin) {
         this.essentialsPlugin = essentialsPlugin;
     }
 

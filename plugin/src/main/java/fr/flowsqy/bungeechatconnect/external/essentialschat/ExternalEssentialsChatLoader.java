@@ -7,6 +7,8 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class ExternalEssentialsChatLoader {
 
     public void load(@NotNull Plugin plugin) {
@@ -23,6 +25,7 @@ public class ExternalEssentialsChatLoader {
     private void enable(@NotNull Plugin plugin) {
         final PluginManager pluginManager = Bukkit.getPluginManager();
         final IEssentials essentialsPlugin = (IEssentials) pluginManager.getPlugin("Essentials");
+        Objects.requireNonNull(essentialsPlugin);
         final ExternalEssentialsChatListener messageListener = new ExternalEssentialsChatListener();
         final ExternalEssentialsReceiveListener receiveListener = new ExternalEssentialsReceiveListener(essentialsPlugin);
         pluginManager.registerEvents(messageListener, plugin);
