@@ -1,5 +1,6 @@
 package fr.flowsqy.bungeechatconnect.external.essentialschat;
 
+import fr.flowsqy.bungeechatconnect.BungeeChatConnectPlugin;
 import fr.flowsqy.bungeechatconnect.event.PrepareMessageEvent;
 import net.essentialsx.api.v2.ChatType;
 import net.essentialsx.api.v2.events.chat.GlobalChatEvent;
@@ -8,55 +9,60 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ExternalEssentialsChatListener implements Listener {
 
-    // We can use a queue because PrepareMessageEvent events are called in the same order as the messages are sent
-    private final Queue<ChatType> messageQueue;
-    // Terrible idea. But Essentials does not fire ChatEvent when AsyncPlayerChatEvent is cancelled
-    private final Set<UUID> registeredId;
+    private final Map<Message, ChatType> messagesTypes;
 
     public ExternalEssentialsChatListener() {
-        messageQueue = new ConcurrentLinkedQueue<>();
-        registeredId = Collections.synchronizedSet(new HashSet<>());
+        messagesTypes = new ConcurrentHashMap<>();
     }
 
     @SuppressWarnings("unused")
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     private void onChat(AsyncPlayerChatEvent event) {
-        if (!registeredId.remove(event.getPlayer().getUniqueId())) {
-            subscribe(ChatType.LOCAL);
-        }
+        // Register the message by default
+        final Message message = new Message(event.getPlayer().getUniqueId(), event.getMessage());
+        subscribe(message, ChatType.UNKNOWN);
     }
 
     @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.MONITOR)
     private void onChat(LocalChatEvent event) {
-        registeredId.add(event.getPlayer().getUniqueId());
-        subscribe(event.getChatType());
+        final Message message = new Message(event.getPlayer().getUniqueId(), event.getMessage());
+        subscribe(message, event.getChatType());
     }
 
     @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.MONITOR)
     private void onChat(GlobalChatEvent event) {
-        registeredId.add(event.getPlayer().getUniqueId());
-        subscribe(event.getChatType());
+        final Message message = new Message(event.getPlayer().getUniqueId(), event.getMessage());
+        subscribe(message, event.getChatType());
     }
 
-    private void subscribe(ChatType chatType) {
-        messageQueue.offer(chatType);
+    private void subscribe(Message message, ChatType chatType) {
+        messagesTypes.put(message, chatType);
     }
 
     @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.LOWEST)
     private void onPrepare(PrepareMessageEvent event) {
-        final ChatType chatType = Objects.requireNonNull(messageQueue.poll());
+        final Message message = new Message(event.getPlayer().getUniqueId(), event.getMessage());
+        final ChatType chatType = messagesTypes.remove(message);
+        if (chatType == null) {
+            final String warning = "Somehow, the EssentialsChat support didn't manage to get the chat type for the message '" + message + "'. The message will be silenced. Please report the bug to the plugin author and specify your server software";
+            JavaPlugin.getPlugin(BungeeChatConnectPlugin.class).getLogger().warning(warning);
+            return;
+        }
         if (event.isCancelled()) {
             return;
         }
@@ -72,6 +78,9 @@ public class ExternalEssentialsChatListener implements Listener {
             throw new RuntimeException(e);
         }
         event.addExtraData(ExternalEssentialsReceiveListener.CHAT_TYPE_IDENTIFIER, outByteStream.toByteArray());
+    }
+
+    private record Message(@NotNull UUID sender, @NotNull String message) {
     }
 
 }
