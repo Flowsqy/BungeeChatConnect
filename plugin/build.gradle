@@ -9,6 +9,9 @@ repositories {
         url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
     }
     maven {
+        url = uri("https://jitpack.io")
+    }
+    maven {
         url = uri("https://repo.essentialsx.net/snapshots/")
     }
 }
@@ -16,6 +19,7 @@ repositories {
 dependencies {
     implementation "org.jetbrains:annotations:24.0.1"
     compileOnly "org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT"
+    compileOnly "com.github.Flowsqy:NoQueuePluginMessage:3afd3393e2"
     compileOnly "net.essentialsx:EssentialsX:2.20.0-SNAPSHOT"
     compileOnly "net.essentialsx:EssentialsXChat:2.20.0-SNAPSHOT"
 }

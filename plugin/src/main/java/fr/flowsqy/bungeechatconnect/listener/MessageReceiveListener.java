@@ -1,34 +1,30 @@
 package fr.flowsqy.bungeechatconnect.listener;
 
+import fr.flowsqy.bungeechatconnect.protocol.ChannelRegistry;
 import fr.flowsqy.bungeechatconnect.protocol.task.AsyncMessageReceiver;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+import fr.flowsqy.noqueuepluginmessage.api.event.DataReceiveEvent;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.jetbrains.annotations.NotNull;
 
-public class MessageReceiveListener implements PluginMessageListener {
+public class MessageReceiveListener implements Listener {
 
-    private final Plugin plugin;
+    private final @NotNull Plugin plugin;
 
     public MessageReceiveListener(@NotNull Plugin plugin) {
         this.plugin = plugin;
     }
 
-    public void register() {
-        Bukkit.getMessenger().registerIncomingPluginChannel(plugin, "BungeeCord", this);
-    }
-
-    public void unregister() {
-        Bukkit.getMessenger().unregisterIncomingPluginChannel(plugin, "BungeeCord", this);
-    }
-
-    @Override
-    public void onPluginMessageReceived(@NotNull String channel, @NotNull Player player, byte @NotNull [] message) {
-        if (!channel.equals("BungeeCord")) {
+    @SuppressWarnings("unused")
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    private void onReceive(DataReceiveEvent event) {
+        if (!ChannelRegistry.CHAT_CHANNEL.equals(event.getChannel())) {
             return;
         }
         AsyncMessageReceiver asyncMessageReceiver = new AsyncMessageReceiver();
-        asyncMessageReceiver.receiveMessage(plugin, message);
+        asyncMessageReceiver.receiveMessage(plugin, event.getData());
     }
+
 }

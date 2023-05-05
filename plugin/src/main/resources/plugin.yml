@@ -3,6 +3,8 @@ version: "${version}"
 author: Flowsqy
 main: fr.flowsqy.bungeechatconnect.BungeeChatConnectPlugin
 api-version: "1.13"
+depend:
+  - NoQueuePluginMessage
 softdepend:
   - Essentials
   - EssentialsChat

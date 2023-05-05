@@ -4,7 +4,6 @@ import fr.flowsqy.bungeechatconnect.event.BungeePlayerChatEvent;
 import fr.flowsqy.bungeechatconnect.protocol.message.MessageReader;
 import fr.flowsqy.bungeechatconnect.protocol.message.MessageSender;
 import fr.flowsqy.bungeechatconnect.protocol.message.ReceivedMessage;
-import fr.flowsqy.bungeechatconnect.protocol.packet.PacketReader;
 import fr.flowsqy.bungeechatconnect.protocol.process.MessageFinalizer;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,29 +12,19 @@ import java.io.IOException;
 public class ReceiveMessageRunnable implements Runnable {
 
     private final boolean async;
-    private final byte[] packetData;
+    private final byte[] data;
 
-    public ReceiveMessageRunnable(boolean async, byte @NotNull [] packetData) {
+    public ReceiveMessageRunnable(boolean async, byte @NotNull [] data) {
         this.async = async;
-        this.packetData = packetData;
+        this.data = data;
     }
 
     @Override
     public void run() {
-        final PacketReader packetReader = new PacketReader();
-        final PacketReader.Result packetResult;
-        try {
-            packetResult = packetReader.read(packetData);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        if (!packetResult.isValid()) {
-            return;
-        }
         final MessageReader messageReader = new MessageReader();
         final ReceivedMessage receivedMessage;
         try {
-            receivedMessage = messageReader.read(packetResult.getMessageData());
+            receivedMessage = messageReader.read(data);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

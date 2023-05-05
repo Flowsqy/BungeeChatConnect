@@ -6,8 +6,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class AsyncMessageReceiver {
 
-    public void receiveMessage(@NotNull Plugin plugin, byte @NotNull [] packetData) {
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, new ReceiveMessageRunnable(true, packetData));
+    public void receiveMessage(@NotNull Plugin plugin, byte @NotNull [] data) {
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, new ReceiveMessageRunnable(true, data));
     }
 
 }

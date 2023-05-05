@@ -13,12 +13,12 @@ public class MessageFinalizer {
     public BungeePlayerChatEvent finalize(boolean async, ReceivedMessage receivedMessage) {
         final BungeePlayerChatEvent event = new BungeePlayerChatEvent(
                 async,
-                receivedMessage.getName(),
-                receivedMessage.getDisplayName(),
-                receivedMessage.getFormat(),
-                receivedMessage.getMessage(),
+                receivedMessage.name(),
+                receivedMessage.displayName(),
+                receivedMessage.format(),
+                receivedMessage.message(),
                 new HashSet<>(Bukkit.getOnlinePlayers()),
-                receivedMessage.getExtraData()
+                receivedMessage.extraData()
         );
         Bukkit.getPluginManager().callEvent(event);
         return event;

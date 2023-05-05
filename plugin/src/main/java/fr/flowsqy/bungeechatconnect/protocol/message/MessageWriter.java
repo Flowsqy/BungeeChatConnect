@@ -13,16 +13,16 @@ public class MessageWriter {
     public byte @NotNull [] write(@NotNull SendMessageData sendMessageData) throws IOException {
         final ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
         final DataOutputStream outDataStream = new DataOutputStream(outByteStream);
-        outDataStream.writeUTF(sendMessageData.getName());
-        outDataStream.writeUTF(sendMessageData.getDisplayName());
-        outDataStream.writeUTF(sendMessageData.getFormat());
-        outDataStream.writeUTF(sendMessageData.getMessage());
-        final List<PrepareMessageEvent.ExtraData> extraDataList = sendMessageData.getExtraDataList();
+        outDataStream.writeUTF(sendMessageData.name());
+        outDataStream.writeUTF(sendMessageData.displayName());
+        outDataStream.writeUTF(sendMessageData.format());
+        outDataStream.writeUTF(sendMessageData.message());
+        final List<PrepareMessageEvent.ExtraData> extraDataList = sendMessageData.extraDataList();
         outDataStream.writeByte(extraDataList.size());
         for (PrepareMessageEvent.ExtraData extraData : extraDataList) {
-            outDataStream.writeUTF(extraData.getIdentifier());
-            outDataStream.writeShort(extraData.getData().length);
-            outDataStream.write(extraData.getData());
+            outDataStream.writeUTF(extraData.identifier());
+            outDataStream.writeShort(extraData.data().length);
+            outDataStream.write(extraData.data());
         }
         return outByteStream.toByteArray();
     }
