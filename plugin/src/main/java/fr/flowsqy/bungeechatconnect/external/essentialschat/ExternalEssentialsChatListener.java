@@ -10,7 +10,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -21,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ExternalEssentialsChatListener implements Listener {
 
-    private final Map<Message, ChatType> messagesTypes;
+    private final Map<UUID, ChatType> messagesTypes;
 
     public ExternalEssentialsChatListener() {
         messagesTypes = new ConcurrentHashMap<>();
@@ -31,35 +30,31 @@ public class ExternalEssentialsChatListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     private void onChat(AsyncPlayerChatEvent event) {
         // Register the message by default
-        final Message message = new Message(event.getPlayer().getUniqueId(), event.getMessage());
-        subscribe(message, ChatType.UNKNOWN);
+        subscribe(event.getPlayer().getUniqueId(), ChatType.UNKNOWN);
     }
 
     @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.MONITOR)
     private void onChat(LocalChatEvent event) {
-        final Message message = new Message(event.getPlayer().getUniqueId(), event.getMessage());
-        subscribe(message, event.getChatType());
+        subscribe(event.getPlayer().getUniqueId(), event.getChatType());
     }
 
     @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.MONITOR)
     private void onChat(GlobalChatEvent event) {
-        final Message message = new Message(event.getPlayer().getUniqueId(), event.getMessage());
-        subscribe(message, event.getChatType());
+        subscribe(event.getPlayer().getUniqueId(), event.getChatType());
     }
 
-    private void subscribe(Message message, ChatType chatType) {
-        messagesTypes.put(message, chatType);
+    private void subscribe(UUID senderId, ChatType chatType) {
+        messagesTypes.put(senderId, chatType);
     }
 
     @SuppressWarnings("unused")
     @EventHandler(priority = EventPriority.LOWEST)
     private void onPrepare(PrepareMessageEvent event) {
-        final Message message = new Message(event.getPlayer().getUniqueId(), event.getMessage());
-        final ChatType chatType = messagesTypes.remove(message);
+        final ChatType chatType = messagesTypes.remove(event.getPlayer().getUniqueId());
         if (chatType == null) {
-            final String warning = "Somehow, the EssentialsChat support didn't manage to get the chat type for the message '" + message + "'. The message will be silenced. Please report the bug to the plugin author and specify your server software";
+            final String warning = "Somehow, the EssentialsChat support didn't manage to get the chat type for the message of '" + event.getPlayer().getName() + "'. The message will be silenced. Please report the bug to the plugin author and specify your server software";
             JavaPlugin.getPlugin(BungeeChatConnectPlugin.class).getLogger().warning(warning);
             return;
         }
@@ -78,9 +73,6 @@ public class ExternalEssentialsChatListener implements Listener {
             throw new RuntimeException(e);
         }
         event.addExtraData(ExternalEssentialsReceiveListener.CHAT_TYPE_IDENTIFIER, outByteStream.toByteArray());
-    }
-
-    private record Message(@NotNull UUID sender, @NotNull String message) {
     }
 
 }
